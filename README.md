@@ -60,7 +60,8 @@ Measured with `vec-bench run` using strict **50/50 disjoint cell splits** (zero 
 git clone https://github.com/XinOrigin/vec-baseline-bench-cn.git
 cd vec-baseline-bench-cn
 pip install -e .
-pip install veckit  # or pass --veckit-dir /path/to/veckit
+# 国内镜像加速: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -e .
+pip install git+https://github.com/aristoteleo/vec_baselines.git  # or pass --veckit-dir /path/to/veckit
 ```
 
 ### 1. Run a leakage-free multi-baseline benchmark + offline 3D HTML report

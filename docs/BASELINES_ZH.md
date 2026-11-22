@@ -2,6 +2,13 @@
 
 本文面向刚跑通官方 [`aristoteleo/veckit`](https://github.com/aristoteleo/veckit) 和 [`vec-preflight-cn`](https://github.com/XinOrigin/vec-preflight-cn) 的中文参赛者，重点回答三个实战问题：
 
+> **环境安装（Python >= 3.10）**：
+> ```bash
+> pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -e .
+> pip install git+https://github.com/aristoteleo/vec_baselines.git  # 或运行时传 --veckit-dir /path/to/veckit
+> ```
+> **配套工具**：`vec-preflight-cn`（提交前体检） · `vec-baseline-bench-cn`（基线评测） · `vec-metric-lens-cn`（归因与 CI） · `vec-spatial-qc-cn`（3D 空间质控）。
+
 1. **为什么直接预测均值细胞（Mean Collapse）会让 `mmd_u` 和 `variogram` 惨败？**
 2. **在没有 A100/H100 的笔记本 CPU 上，如何写出比 `copy_last`（50 分基线）高 6–15 分的透明基线？**
 3. **如何设计零数据泄漏的本地交叉验证（CV），避免在仅有 2 次机会的 P3 终审榜单上踩坑？**
