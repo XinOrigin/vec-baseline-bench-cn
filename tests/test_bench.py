@@ -177,3 +177,20 @@ def test_cli_predict_generates_valid_h5ad(tmp_path: Path):
     assert pred.shape == (150, 32285)
     assert float(pred.X.min()) >= 0.0
     assert np.isfinite(pred.X).all()
+
+
+def test_run_benchmark_rejects_half_explicit_train_pair(tmp_path: Path):
+    with pytest.raises(ValueError, match="passed together"):
+        run_benchmark(
+            "T2",
+            tmp_path / "r.h5ad",
+            tmp_path / "t.h5ad",
+            train_ref_path=tmp_path / "x.h5ad",
+        )
+    with pytest.raises(ValueError, match="passed together"):
+        run_benchmark(
+            "T2",
+            tmp_path / "r.h5ad",
+            tmp_path / "t.h5ad",
+            train_target_path=tmp_path / "y.h5ad",
+        )

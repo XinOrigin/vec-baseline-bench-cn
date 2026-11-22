@@ -196,6 +196,8 @@ def run_benchmark(
     task = task.upper()
     if task not in TASK_GROUPS:
         raise ValueError(f"Unsupported task {task!r}")
+    if (train_ref_path is None) != (train_target_path is None):
+        raise ValueError("train_ref_path and train_target_path must be passed together")
 
     score_mod = load_veckit_scorer(veckit_dir)
     if baseline_names is None:
