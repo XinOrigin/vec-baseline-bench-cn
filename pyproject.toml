@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vec-baseline-bench-cn"
+version = "0.1.0"
+description = "CPU-only starter baselines, leakage-free local benchmark harness, and offline 3D spatial HTML report generator for the Virtual Embryo Challenge (NeurIPS 2026)"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "anndata>=0.10",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+vec-bench = "vec_bench.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["vec_bench*"]
