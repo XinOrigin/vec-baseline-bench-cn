@@ -17,6 +17,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+scoring = ["veckit @ git+https://github.com/aristoteleo/vec_baselines.git"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]

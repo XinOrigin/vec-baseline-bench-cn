@@ -60,7 +60,8 @@ def load_veckit_scorer(veckit_dir: Path | None = None):
         return score_h5ad
     except ImportError as exc:
         raise RuntimeError(
-            "aristoteleo/veckit is required. Run `pip install veckit` or pass `--veckit-dir /path/to/veckit`."
+            "aristoteleo/veckit is required. Run `pip install git+https://github.com/aristoteleo/vec_baselines.git` "
+            "or pass `--veckit-dir /path/to/veckit`."
         ) from exc
 
 
@@ -107,7 +108,7 @@ def rescale_to_official_skill(
             continue
         v, vf, vc = pred_metrics.get(name), floor_metrics.get(name), ceiling_metrics.get(name)
         if v is None or vf is None or vc is None or not all(math.isfinite(x) for x in (v, vf, vc)):
-            per_metric[name] = {"raw": v, "floor": vf, "ceiling": vc, "anchor": "missing", "skill_100": 0.0}
+            per_metric[name] = {"raw": v, "floor": vf, "ceiling": vc, "anchor_status": "missing", "skill_100": 0.0}
             continue
         m = abs(float(v)) if take_abs else float(v)
         mf = abs(float(vf)) if take_abs else float(vf)
@@ -116,7 +117,7 @@ def rescale_to_official_skill(
         is_inv = (direction == "lower" and mc > mf) or (direction == "higher" and mc < mf)
         if is_inv:
             inverted.append(name)
-            per_metric[name] = {"raw": v, "floor": vf, "ceiling": vc, "anchor": "inverted", "skill_100": None}
+            per_metric[name] = {"raw": v, "floor": vf, "ceiling": vc, "anchor_status": "inverted", "skill_100": None}
             continue
 
         d_floor = abs(mc - mf)
@@ -132,7 +133,7 @@ def rescale_to_official_skill(
             "raw": v,
             "floor": vf,
             "ceiling": vc,
-            "anchor": status,
+            "anchor_status": status,
             "skill_100": round(sk * 100.0, 2),
         }
 

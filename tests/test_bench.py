@@ -194,3 +194,25 @@ def test_run_benchmark_rejects_half_explicit_train_pair(tmp_path: Path):
             tmp_path / "t.h5ad",
             train_target_path=tmp_path / "y.h5ad",
         )
+
+
+def test_rescale_uses_anchor_status_and_baseline_rejects_gene_mismatch():
+    from vec_bench.baselines import make_baseline
+    from vec_bench.benchmark import rescale_to_official_skill
+
+    res = rescale_to_official_skill(
+        "T1",
+        {"de_score": 0.5, "mmd_u": 0.3},
+        {"de_score": 0.2, "mmd_u": 0.6},
+        {"de_score": 0.8, "mmd_u": 0.1},
+    )
+    assert res["per_metric"]["de_score"]["anchor_status"] == "ok"
+    assert res["per_metric"]["mmd_u"]["anchor_status"] == "ok"
+
+    a1 = ad.AnnData(X=np.ones((6, 3), dtype=np.float32))
+    a1.var_names = ["G0", "G1", "G2"]
+    a2 = ad.AnnData(X=np.ones((6, 4), dtype=np.float32))
+    a2.var_names = ["G0", "G1", "G2", "G3"]
+    base = make_baseline("mean_shift")
+    with pytest.raises(ValueError, match="var_names"):
+        base.fit(a1, a2)
